@@ -26,7 +26,7 @@ const containerVariants = {
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { ease: [0.23, 1, 0.32, 1], duration: 0.6 } }
+  show: { opacity: 1, y: 0, transition: { ease: [0.23, 1, 0.32, 1] as const, duration: 0.6 } }
 };
 
 export const Dashboard: React.FC<DashboardProps> = ({ stats }) => {
@@ -70,7 +70,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ stats }) => {
               className="progress-bar-fill" 
               initial={{ width: 0 }}
               animate={{ width: `${stats.completionRate}%` }}
-              transition={{ duration: 1, ease: [0.23, 1, 0.32, 1], delay: 0.3 }}
+              transition={{ duration: 1, ease: [0.23, 1, 0.32, 1] as const, delay: 0.3 }}
             />
           </div>
         </div>
