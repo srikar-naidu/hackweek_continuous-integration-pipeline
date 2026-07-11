@@ -1,5 +1,6 @@
 import React from 'react';
 import { CheckCircle2, AlertCircle, ListTodo, Layers } from 'lucide-react';
+import { motion } from 'motion/react';
 
 interface DashboardProps {
   stats: {
@@ -15,78 +16,99 @@ interface DashboardProps {
   };
 }
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { ease: [0.23, 1, 0.32, 1], duration: 0.6 } }
+};
+
 export const Dashboard: React.FC<DashboardProps> = ({ stats }) => {
   return (
-    <div className="dashboard-grid">
+    <motion.div 
+      className="dashboard-grid"
+      variants={containerVariants}
+      initial="hidden"
+      animate="show"
+    >
       {/* Total Tasks Card */}
-      <div className="dashboard-card shadow-sm">
+      <motion.div className="dashboard-card" variants={itemVariants}>
         <div className="card-header-flex">
           <div>
             <p className="card-label">Total Tasks</p>
             <h3 className="card-value">{stats.total}</h3>
           </div>
-          <div className="card-icon bg-blue-light">
-            <Layers className="text-blue" size={20} />
+          <div className="card-icon" style={{ color: 'var(--info)' }}>
+            <Layers size={24} strokeWidth={1.5} />
           </div>
         </div>
-        <div className="card-footer">
-          <span className="footer-label">
-            {stats.todo} Todo · {stats.inProgress} In Progress · {stats.backlog} Backlog
-          </span>
+        <div className="card-footer" style={{ color: 'var(--text-secondary)' }}>
+          {stats.todo} Todo · {stats.inProgress} In Progress · {stats.backlog} Backlog
         </div>
-      </div>
+      </motion.div>
 
       {/* Completion Rate Card */}
-      <div className="dashboard-card shadow-sm">
+      <motion.div className="dashboard-card" variants={itemVariants}>
         <div className="card-header-flex">
           <div>
             <p className="card-label">Completion Rate</p>
             <h3 className="card-value">{stats.completionRate}%</h3>
           </div>
-          <div className="card-icon bg-green-light">
-            <CheckCircle2 className="text-green" size={20} />
+          <div className="card-icon" style={{ color: 'var(--success)' }}>
+            <CheckCircle2 size={24} strokeWidth={1.5} />
           </div>
         </div>
-        <div className="card-footer">
+        <div className="card-footer" style={{ borderTop: 'none', paddingTop: 0 }}>
           <div className="progress-bar-container">
-            <div className="progress-bar-fill" style={{ width: `${stats.completionRate}%` }}></div>
+            <motion.div 
+              className="progress-bar-fill" 
+              initial={{ width: 0 }}
+              animate={{ width: `${stats.completionRate}%` }}
+              transition={{ duration: 1, ease: [0.23, 1, 0.32, 1], delay: 0.3 }}
+            />
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* High Priority Card */}
-      <div className="dashboard-card shadow-sm">
+      <motion.div className="dashboard-card" variants={itemVariants}>
         <div className="card-header-flex">
           <div>
             <p className="card-label">High Priority Issues</p>
-            <h3 className="card-value">{stats.highPriority}</h3>
+            <h3 className="card-value" style={{ color: stats.highPriority > 0 ? 'var(--danger)' : 'var(--text-primary)' }}>
+              {stats.highPriority}
+            </h3>
           </div>
-          <div className="card-icon bg-orange-light">
-            <AlertCircle className="text-orange" size={20} />
+          <div className="card-icon" style={{ color: 'var(--danger)' }}>
+            <AlertCircle size={24} strokeWidth={1.5} />
           </div>
         </div>
-        <div className="card-footer">
-          <span className="footer-label">Active high-priority tasks requiring attention</span>
+        <div className="card-footer" style={{ color: 'var(--text-secondary)' }}>
+          Active high-priority tasks requiring attention
         </div>
-      </div>
+      </motion.div>
 
       {/* Current Load Card */}
-      <div className="dashboard-card shadow-sm">
+      <motion.div className="dashboard-card" variants={itemVariants}>
         <div className="card-header-flex">
           <div>
             <p className="card-label">Active Workload</p>
             <h3 className="card-value">{stats.todo + stats.inProgress}</h3>
           </div>
-          <div className="card-icon bg-purple-light">
-            <ListTodo className="text-purple" size={20} />
+          <div className="card-icon" style={{ color: 'var(--warning)' }}>
+            <ListTodo size={24} strokeWidth={1.5} />
           </div>
         </div>
-        <div className="card-footer">
-          <span className="footer-label">
-            {stats.mediumPriority} medium priority · {stats.lowPriority} low priority
-          </span>
+        <div className="card-footer" style={{ color: 'var(--text-secondary)' }}>
+          {stats.mediumPriority} medium priority · {stats.lowPriority} low priority
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };

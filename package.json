@@ -1,5 +1,5 @@
 {
-  "name": "continuous-integration-pipeline-project",
+  "name": "srikars-ci-pipeline",
   "version": "1.0.0",
   "private": true,
   "workspaces": [
@@ -7,6 +7,7 @@
     "frontend"
   ],
   "scripts": {
+    "dev": "concurrently \"npm run dev -w backend\" \"npm run dev -w frontend\"",
     "build": "npm run build --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
@@ -14,6 +15,7 @@
     "format:check": "prettier --check ."
   },
   "devDependencies": {
+    "concurrently": "^10.0.3",
     "prettier": "^3.2.5"
   }
 }

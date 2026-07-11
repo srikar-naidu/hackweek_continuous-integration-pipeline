@@ -1,6 +1,6 @@
-# TaskFlow - Full-Stack Monorepo with GitHub Actions CI/CD Pipeline
+# Srikar's CI Pipeline - Full-Stack Monorepo with GitHub Actions CI/CD Pipeline
 
-TaskFlow is a production-quality task management monorepo designed with a clean, light-themed user interface, robust REST APIs, comprehensive testing suites, and security-centric GitHub Actions validation pipelines.
+Srikar's CI Pipeline is a production-quality task management monorepo designed with a clean, light-themed user interface, robust REST APIs, comprehensive testing suites, and security-centric GitHub Actions validation pipelines.
 
 ---
 
@@ -91,8 +91,8 @@ Start the backend and frontend development servers concurrently:
 npm run dev
 ```
 
-- **API Server**: Runs at `http://localhost:3001`
-- **Frontend Client**: Runs at `http://localhost:5173`
+- **API Server**: Runs at `http://localhost:5000`
+- **Frontend Client**: Runs at `http://localhost:3000`
 
 ---
 

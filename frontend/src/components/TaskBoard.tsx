@@ -1,6 +1,7 @@
 import React from 'react';
 import { TaskCard } from './TaskCard';
 import { Task, Status } from '../types';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface TaskBoardProps {
   tasks: Task[];
@@ -41,32 +42,49 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
         {columns.map((col) => {
           const colTasks = tasksByStatus[col.id] || [];
           return (
-            <div key={col.id} className="board-column">
-              <div className={`column-header ${col.colorClass}`}>
+            <div key={col.id} className={`board-column ${col.colorClass}`}>
+              <div className="column-header">
                 <h3 className="column-title">
+                  <div className="column-indicator" />
                   {col.title}
                   <span className="column-count-badge">{colTasks.length}</span>
                 </h3>
               </div>
-              <div className="column-body">
-                {colTasks.length === 0 ? (
-                  <div className="empty-column-placeholder">
-                    No tasks in {col.title.toLowerCase()}
-                  </div>
-                ) : (
-                  colTasks.map((task) => (
-                    <TaskCard
-                      key={task.id}
-                      task={task}
-                      isSelected={selectedIds.includes(task.id)}
-                      onSelectToggle={onSelectToggle}
-                      onEdit={onEdit}
-                      onDelete={onDelete}
-                      onStatusChange={onStatusChange}
-                    />
-                  ))
-                )}
-              </div>
+              <motion.div 
+                className="column-body"
+                initial="hidden"
+                animate="show"
+                variants={{
+                  hidden: { opacity: 0 },
+                  show: { opacity: 1, transition: { staggerChildren: 0.05 } }
+                }}
+              >
+                <AnimatePresence mode="popLayout">
+                  {colTasks.length === 0 ? (
+                    <motion.div 
+                      key="empty"
+                      className="empty-column-placeholder"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                    >
+                      No tasks in {col.title.toLowerCase()}
+                    </motion.div>
+                  ) : (
+                    colTasks.map((task) => (
+                      <TaskCard
+                        key={task.id}
+                        task={task}
+                        isSelected={selectedIds.includes(task.id)}
+                        onSelectToggle={onSelectToggle}
+                        onEdit={onEdit}
+                        onDelete={onDelete}
+                        onStatusChange={onStatusChange}
+                      />
+                    ))
+                  )}
+                </AnimatePresence>
+              </motion.div>
             </div>
           );
         })}

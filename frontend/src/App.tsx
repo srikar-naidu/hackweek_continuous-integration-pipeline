@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Plus, Clock, Keyboard, Download, Search, AlertCircle, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { useTasks } from './hooks/useTasks';
 import { Dashboard } from './components/Dashboard';
 import { TaskBoard } from './components/TaskBoard';
@@ -158,12 +159,17 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="app-container">
+    <motion.div 
+      className="app-container"
+      initial={{ opacity: 0, filter: 'blur(4px)' }}
+      animate={{ opacity: 1, filter: 'blur(0px)' }}
+      transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
+    >
       {/* Brand Header */}
       <header className="app-header">
         <div className="brand-section">
           <div className="brand-logo">✓</div>
-          <h1 className="brand-name">TaskFlow CI</h1>
+          <h1 className="brand-name">Srikar's CI Pipeline</h1>
         </div>
 
         <div className="header-actions">
@@ -197,17 +203,25 @@ export const App: React.FC = () => {
       </header>
 
       {/* Error Toast Message */}
-      {errorMessage && (
-        <div className="error-toast animate-slide-up">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <AlertCircle size={16} />
-            <span>{errorMessage}</span>
-          </div>
-          <button onClick={() => setErrorMessage(null)} className="btn-dismiss-toast">
-            <X size={16} />
-          </button>
-        </div>
-      )}
+      <AnimatePresence>
+        {errorMessage && (
+          <motion.div 
+            className="error-toast"
+            initial={{ opacity: 0, y: -20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.95 }}
+            transition={{ duration: 0.4, type: "spring", bounce: 0.2 }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <AlertCircle size={16} />
+              <span>{errorMessage}</span>
+            </div>
+            <button onClick={() => setErrorMessage(null)} className="btn-dismiss-toast">
+              <X size={16} />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Dashboard Metrics */}
       <Dashboard stats={dashboardStats} />
@@ -264,20 +278,35 @@ export const App: React.FC = () => {
       </div>
 
       {/* Loading Skeleton / Kanban Board */}
-      {loading && tasks.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '64px', color: 'var(--text-secondary)' }}>
-          Loading your workflow...
-        </div>
-      ) : (
-        <TaskBoard
-          tasks={tasks}
-          selectedIds={selectedIds}
-          onSelectToggle={toggleSelect}
-          onEdit={handleOpenEditModal}
-          onDelete={handleTaskDelete}
-          onStatusChange={handleTaskStatusChange}
-        />
-      )}
+      <AnimatePresence mode="wait">
+        {loading && tasks.length === 0 ? (
+          <motion.div 
+            key="loading"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{ textAlign: 'center', padding: '64px', color: 'var(--text-secondary)' }}
+          >
+            Loading your workflow...
+          </motion.div>
+        ) : (
+          <motion.div 
+            key="board"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+          >
+            <TaskBoard
+              tasks={tasks}
+              selectedIds={selectedIds}
+              onSelectToggle={toggleSelect}
+              onEdit={handleOpenEditModal}
+              onDelete={handleTaskDelete}
+              onStatusChange={handleTaskStatusChange}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Floating Bulk Actions Menu */}
       <BulkActions
@@ -307,7 +336,7 @@ export const App: React.FC = () => {
 
       {/* Keyboard Shortcuts Overlay Modal */}
       <KeyboardShortcuts isOpen={isShortcutsOpen} onClose={() => setIsShortcutsOpen(false)} />
-    </div>
+    </motion.div>
   );
 };
 

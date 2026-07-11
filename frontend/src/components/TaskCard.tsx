@@ -1,5 +1,6 @@
 import React from 'react';
 import { Edit2, Trash2, Calendar, ArrowRight } from 'lucide-react';
+import { motion } from 'motion/react';
 import { Task, Status } from '../types';
 
 interface TaskCardProps {
@@ -57,8 +58,21 @@ export const TaskCard: React.FC<TaskCardProps> = ({
     }
   };
 
+  const cardVariants = {
+    hidden: { opacity: 0, y: 15, scale: 0.95 },
+    show: { opacity: 1, y: 0, scale: 1, transition: { ease: [0.23, 1, 0.32, 1], duration: 0.4 } },
+    exit: { opacity: 0, scale: 0.9, transition: { duration: 0.2 } }
+  };
+
   return (
-    <div className={`task-card ${isSelected ? 'task-card-selected' : ''}`}>
+    <motion.div 
+      layout
+      variants={cardVariants}
+      initial="hidden"
+      animate="show"
+      exit="exit"
+      className={`task-card ${isSelected ? 'task-card-selected' : ''}`}
+    >
       <div className="task-card-main">
         {/* Selection Checkbox */}
         <div className="task-card-select">
@@ -131,6 +145,6 @@ export const TaskCard: React.FC<TaskCardProps> = ({
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
