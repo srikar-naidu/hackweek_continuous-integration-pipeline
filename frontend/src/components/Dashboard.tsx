@@ -20,18 +20,18 @@ const containerVariants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: { staggerChildren: 0.1 }
-  }
+    transition: { staggerChildren: 0.1 },
+  },
 };
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { ease: [0.23, 1, 0.32, 1], duration: 0.6 } }
+  show: { opacity: 1, y: 0, transition: { ease: [0.23, 1, 0.32, 1] as const, duration: 0.6 } },
 };
 
 export const Dashboard: React.FC<DashboardProps> = ({ stats }) => {
   return (
-    <motion.div 
+    <motion.div
       className="dashboard-grid"
       variants={containerVariants}
       initial="hidden"
@@ -66,11 +66,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ stats }) => {
         </div>
         <div className="card-footer" style={{ borderTop: 'none', paddingTop: 0 }}>
           <div className="progress-bar-container">
-            <motion.div 
-              className="progress-bar-fill" 
+            <motion.div
+              className="progress-bar-fill"
               initial={{ width: 0 }}
               animate={{ width: `${stats.completionRate}%` }}
-              transition={{ duration: 1, ease: [0.23, 1, 0.32, 1], delay: 0.3 }}
+              transition={{ duration: 1, ease: [0.23, 1, 0.32, 1] as const, delay: 0.3 }}
             />
           </div>
         </div>
@@ -81,7 +81,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ stats }) => {
         <div className="card-header-flex">
           <div>
             <p className="card-label">High Priority Issues</p>
-            <h3 className="card-value" style={{ color: stats.highPriority > 0 ? 'var(--danger)' : 'var(--text-primary)' }}>
+            <h3
+              className="card-value"
+              style={{ color: stats.highPriority > 0 ? 'var(--danger)' : 'var(--text-primary)' }}
+            >
               {stats.highPriority}
             </h3>
           </div>

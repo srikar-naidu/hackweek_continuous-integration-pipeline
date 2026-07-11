@@ -1,0 +1,7 @@
+.agents/
+.codex/
+.impeccable/
+node_modules/
+dist/
+coverage/
+build/
