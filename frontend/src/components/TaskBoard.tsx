@@ -50,18 +50,18 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
                   <span className="column-count-badge">{colTasks.length}</span>
                 </h3>
               </div>
-              <motion.div 
+              <motion.div
                 className="column-body"
                 initial="hidden"
                 animate="show"
                 variants={{
                   hidden: { opacity: 0 },
-                  show: { opacity: 1, transition: { staggerChildren: 0.05 } }
+                  show: { opacity: 1, transition: { staggerChildren: 0.05 } },
                 }}
               >
                 <AnimatePresence mode="popLayout">
                   {colTasks.length === 0 ? (
-                    <motion.div 
+                    <motion.div
                       key="empty"
                       className="empty-column-placeholder"
                       initial={{ opacity: 0 }}

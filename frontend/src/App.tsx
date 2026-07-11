@@ -159,7 +159,7 @@ export const App: React.FC = () => {
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="app-container"
       initial={{ opacity: 0, filter: 'blur(4px)' }}
       animate={{ opacity: 1, filter: 'blur(0px)' }}
@@ -205,12 +205,12 @@ export const App: React.FC = () => {
       {/* Error Toast Message */}
       <AnimatePresence>
         {errorMessage && (
-          <motion.div 
+          <motion.div
             className="error-toast"
             initial={{ opacity: 0, y: -20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
-            transition={{ duration: 0.4, type: "spring", bounce: 0.2 }}
+            transition={{ duration: 0.4, type: 'spring', bounce: 0.2 }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <AlertCircle size={16} />
@@ -280,7 +280,7 @@ export const App: React.FC = () => {
       {/* Loading Skeleton / Kanban Board */}
       <AnimatePresence mode="wait">
         {loading && tasks.length === 0 ? (
-          <motion.div 
+          <motion.div
             key="loading"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -290,7 +290,7 @@ export const App: React.FC = () => {
             Loading your workflow...
           </motion.div>
         ) : (
-          <motion.div 
+          <motion.div
             key="board"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
